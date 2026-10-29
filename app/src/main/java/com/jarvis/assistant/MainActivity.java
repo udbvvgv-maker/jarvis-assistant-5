@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int BG = Color.parseColor("#0A0F1A");
 
     // If you get HTTP 404, the model name may have changed. Tell Claude.
-    private static final String MODEL = "gemini-2.5-flash";
+    private static final String MODEL = "gemini-flash-latest";
     private static final String API_URL =
             "https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent";
     private static final String SYSTEM_PROMPT =
@@ -208,6 +208,11 @@ public class MainActivity extends AppCompatActivity {
             String k = keyInput.getText().toString().trim();
             if (k.isEmpty()) {
                 statusView.setText("Key box is empty");
+                return;
+            }
+            if (k.matches(".*\\s.*") || k.toLowerCase(Locale.ROOT).contains("curl")
+                    || k.length() < 20 || k.length() > 100) {
+                statusView.setText("This is not a key. Paste only the key text, one line");
                 return;
             }
             prefs().edit().putString("gemini_key", k).apply();
@@ -447,4 +452,4 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
-                               }
+    }
